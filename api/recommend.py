@@ -4,7 +4,8 @@ from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
-from openai import OpenAI
+from google import genai
+from google.genai import types
 
 app = FastAPI()
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -50,15 +51,7 @@ SYSTEM_PROMPT = """당신은 한국어 메뉴 추천 도우미입니다.
 @app.post("/api/recommend")
 async def recommend(request: Request):
     try:
-        # 1. API 키 확인
-        api_key = os.environ.get("OPENAI_API_KEY")
-        if not api_key:
-            return JSONResponse(
-                status_code=500,
-                content={"error": "서버에 OPENAI_API_KEY가 설정되지 않았습니다."}
-            )
-
-        # 2. JSON 데이터 읽기
+        # 1. JSON 데이터 읽기
         try:
             payload = await request.json()
         except Exception:
@@ -67,17 +60,25 @@ async def recommend(request: Request):
                 content={"error": "요청 데이터가 없거나 올바른 JSON이 아닙니다."}
             )
 
-        # 3. 사용자 입력 추출
+        # 2. 사용자 입력 추출
         region = str(payload.get("region", "")).strip()
         food = str(payload.get("food", "")).strip()
         budget = str(payload.get("budget", "")).strip()
         mood = str(payload.get("mood", "")).strip()
 
-        # 4. 필수 입력값 확인
+        # 3. 필수 입력값 확인
         if not region or not food or not budget:
             return JSONResponse(
                 status_code=400,
                 content={"error": "지역, 음식, 예산은 필수 입력값입니다."}
+            )
+
+        # 4. API 키 확인
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if not api_key:
+            return JSONResponse(
+                status_code=500,
+                content={"error": "서버에 GEMINI_API_KEY가 설정되지 않았습니다."}
             )
 
         # 5. AI에게 전달할 사용자 요청 프롬프트
@@ -88,18 +89,18 @@ async def recommend(request: Request):
 원하는 분위기: {mood or "특별한 조건 없음"}
 """
 
-        # 6. OpenAI 클라이언트 생성 및 호출
-        client = OpenAI(api_key=api_key)
-        response = client.chat.completions.create(
-            model=os.environ.get("OPENAI_MODEL", "gpt-4o-mini"),
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": prompt}
-            ],
-            response_format={"type": "json_object"}
+        # 6. Gemini 클라이언트 생성 및 호출
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model=os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite"),
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_PROMPT,
+                response_mime_type="application/json",
+            ),
         )
 
-        output_text = response.choices[0].message.content.strip()
+        output_text = (response.text or "").strip()
         if not output_text:
             return JSONResponse(
                 status_code=502,

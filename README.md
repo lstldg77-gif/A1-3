@@ -10,7 +10,7 @@ AI 웹 개발 미션 제출용 프로젝트입니다.
 ## 기술 스택
 - Frontend: HTML / CSS / JavaScript
 - Backend: Vercel Serverless Functions / Python
-- AI: OpenAI Responses API
+- AI: Google Gemini API
 - Deployment: Vercel
 - Repository: GitHub
 
@@ -43,7 +43,7 @@ vercel dev
 브라우저에서 http://localhost:3000 접속.
 
 ## 환경 변수
-`.env.example`을 참고해 `OPENAI_API_KEY`를 설정합니다. 실제 키는 GitHub에 올리지 않습니다. Vercel의 Environment Variables에도 등록합니다.
+`.env.example`을 참고해 `GEMINI_API_KEY`를 설정합니다. 실제 키는 GitHub에 올리지 않습니다. Vercel의 Environment Variables에도 등록합니다.
 
 ## GitHub
 ```bash
@@ -56,7 +56,7 @@ git push -u origin main
 ```
 
 ## Vercel
-GitHub 저장소를 Import → Environment Variables에 OPENAI_API_KEY 등록 → Deploy → 실제 URL 테스트.
+GitHub 저장소를 Import → Environment Variables에 GEMINI_API_KEY 등록 → Deploy → 실제 URL 테스트.
 
 ## 테스트
 - 정상: 대전 유성구 / 국밥 / 1~2만원 / 가족 식사

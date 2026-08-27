@@ -22,7 +22,7 @@
 - 너무 큰 입력: 413 안내
 
 ## 5. 기술 구조
-사용자 → HTML/CSS/JavaScript → fetch('/api/recommend') → Vercel Python Serverless Function → OpenAI Responses API → JSON → JavaScript 화면 출력
+사용자 → HTML/CSS/JavaScript → fetch('/api/recommend') → Vercel Python Serverless Function → Google Gemini API → JSON → JavaScript 화면 출력
 
 ## 6. 보안
 API 키는 브라우저 코드에 넣지 않고 서버 환경변수 OPENAI_API_KEY로 관리하며 .env는 .gitignore에 포함한다.

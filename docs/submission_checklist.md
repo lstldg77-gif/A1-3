@@ -24,7 +24,7 @@
 - [ ] api 폴더 구분
 - [ ] 커밋 이력 확인
 - [ ] .env 미업로드
-- [ ] OPENAI_API_KEY 환경변수 등록
+- [ ] GEMINI_API_KEY 환경변수 등록
 - [ ] 배포 성공
 - [ ] 실제 URL 테스트
 - [ ] README에 실제 URL 입력
