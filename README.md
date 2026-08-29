@@ -65,7 +65,9 @@ GitHub 저장소를 Import → Environment Variables에 GEMINI_API_KEY 등록 �
 - 지연: 프론트 25초 타임아웃 안내 확인
 
 ## 제출 전 수정
-README의 GitHub URL과 Vercel URL을 실제 값으로 교체하고 docs/evidence에 실제 캡처를 넣으세요.
+README의 GitHub URL https://github.com/lstldg77-gif/A1-3/blob/main/README.md
+
+Vercel URL https://vercel.com/lstldg77-gif
 
 ##각 기능별 설명
 1. 웹의 뼈대와 데이터가 움직이는 길 (HTML/CSS/JS & Fetch)
